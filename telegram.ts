@@ -52,7 +52,7 @@ class Bot {
         "Сгенерируй случайное слово - существительное в диапазоне от 6 до 24 символов",
       );
 
-      this.gameGuessTheWord.start(ctx, word.toLowerCase());
+      await this.gameGuessTheWord.start(ctx, word.toLowerCase());
     });
   }
 

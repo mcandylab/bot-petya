@@ -21,5 +21,5 @@ export const guessTheWordGames = pgTable("guess_the_word_games", {
   chat_id: bigint("chat_id", { mode: "number" }).notNull(),
   word: text("word").notNull(),
   mask: text("mask").notNull(),
-  status: boolean("is_finished").default(false),
+  is_finished: boolean("is_finished").default(false),
 });
