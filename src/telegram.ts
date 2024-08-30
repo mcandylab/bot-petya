@@ -1,20 +1,36 @@
 import { Telegraf } from "telegraf";
+import RegistrationService from "./services/registration.js";
 
 class Bot {
   private bot: Telegraf;
+  private registrationService: RegistrationService;
 
   constructor() {
     this.bot = new Telegraf(process.env.BOT_TOKEN as string);
+    this.registrationService = new RegistrationService();
   }
 
-  public init() {
+  public async init() {
     this.bot.start((ctx) => {
       ctx.reply("Привет " + ctx.from.first_name + "!");
+    });
+
+    await this.bot.telegram.setMyCommands([
+      { command: "start", description: "Начало работы с ботом" },
+      { command: "register", description: "Зарегистрироваться в боте" },
+    ]);
+
+    this.bot.command("register", async (ctx) => {
+      let message = await this.registrationService.execute();
+      ctx.reply("@" + ctx.from.username + " " + message);
     });
   }
 
   public run() {
-    this.bot.launch();
+    this.bot.launch().then(() => {});
+
+    process.once("SIGINT", () => this.bot.stop("SIGINT"));
+    process.once("SIGTERM", () => this.bot.stop("SIGTERM"));
   }
 }
 
