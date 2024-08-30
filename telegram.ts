@@ -1,16 +1,19 @@
 import { Context, Telegraf } from "telegraf";
 import RegistrationService from "./services/registration.js";
 import YesService from "./services/yes.js";
+import AnecdoticaService from "./services/anecdotica.js";
 
 class Bot {
   private bot: Telegraf;
   private registrationService: RegistrationService;
   private yesService: YesService;
+  private anecdoticaService: AnecdoticaService;
 
   constructor() {
     this.bot = new Telegraf(process.env.BOT_TOKEN as string);
     this.registrationService = new RegistrationService();
     this.yesService = new YesService();
+    this.anecdoticaService = new AnecdoticaService();
   }
 
   public async init() {
@@ -23,8 +26,12 @@ class Bot {
       { command: "register", description: "Зарегистрироваться в боте" },
     ]);
 
-    this.bot.command("register", async (ctx) => {
+    this.bot.command("register", async (ctx: Context) => {
       await this.registrationService.execute(ctx);
+    });
+
+    this.bot.command("joke", async (ctx: Context) => {
+      await this.anecdoticaService.execute(ctx);
     });
   }
 

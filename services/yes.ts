@@ -2,7 +2,6 @@ import { Context } from "telegraf";
 import db from "../db.js";
 import { yes } from "../models.js";
 import { and, eq } from "drizzle-orm";
-import { e } from "@upstash/redis/zmscore-uDFFyCiZ";
 
 class YesService {
   public async execute(ctx: Context, message: string): Promise<void> {
