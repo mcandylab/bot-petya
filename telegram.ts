@@ -1,18 +1,21 @@
-import { Telegraf } from "telegraf";
+import { Context, Telegraf } from "telegraf";
 import RegistrationService from "./services/registration.js";
+import YesService from "./services/yes.js";
 
 class Bot {
   private bot: Telegraf;
   private registrationService: RegistrationService;
+  private yesService: YesService;
 
   constructor() {
     this.bot = new Telegraf(process.env.BOT_TOKEN as string);
     this.registrationService = new RegistrationService();
+    this.yesService = new YesService();
   }
 
   public async init() {
-    this.bot.start((ctx) => {
-      ctx.reply("Привет " + ctx.from.first_name + "!");
+    this.bot.start((ctx: Context) => {
+      ctx.reply("Привет " + ctx.from?.first_name + "!");
     });
 
     await this.bot.telegram.setMyCommands([
@@ -26,6 +29,8 @@ class Bot {
   }
 
   public run() {
+    this.bot.hears("да", (ctx: Context) => this.yesService.execute(ctx));
+
     this.bot.launch().then(() => {});
 
     process.once("SIGINT", () => this.bot.stop("SIGINT"));

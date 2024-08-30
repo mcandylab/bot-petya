@@ -1,8 +1,16 @@
-import { pgTable, serial, text } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, bigint, bigserial } from "drizzle-orm/pg-core";
 
 export const players = pgTable("players", {
-  id: serial("id").primaryKey(),
-  user_id: text("user_id").notNull(),
+  id: bigserial("id", { mode: "number" }).primaryKey(),
+  user_id: bigint("user_id", { mode: "number" }).notNull(),
   username: text("username").notNull(),
-  chat_id: text("chat_id").notNull(),
+  chat_id: bigint("chat_id", { mode: "number" }).notNull(),
+});
+
+export const yes = pgTable("yes", {
+  id: bigserial("id", { mode: "number" }).primaryKey(),
+  count: bigint("count", { mode: "number" }).notNull(),
+  user_id: bigint("user_id", { mode: "number" }).notNull(),
+  username: text("username").notNull(),
+  chat_id: bigint("chat_id", { mode: "number" }).notNull(),
 });
