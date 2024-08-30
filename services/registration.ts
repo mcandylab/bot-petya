@@ -1,6 +1,6 @@
 import { Context } from "telegraf";
 import db from "../db.js";
-import { players } from "../models.js";
+import { players } from "../schema.js";
 import { and, eq } from "drizzle-orm";
 
 const GREETINGS: string[] = [

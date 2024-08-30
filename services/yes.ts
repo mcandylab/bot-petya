@@ -1,6 +1,6 @@
 import { Context } from "telegraf";
 import db from "../db.js";
-import { yes } from "../models.js";
+import { yes } from "../schema.js";
 import { and, eq } from "drizzle-orm";
 
 class YesService {
