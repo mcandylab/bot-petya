@@ -65,6 +65,34 @@ class Bot {
       this.yesService.execute(ctx, "пидора ответ! "),
     );
 
+    // Прослушка сообщений, начинающихся с "!буква"
+    this.bot.hears(/^!буква\s*(.*)/, (ctx) => {
+      const messageText = ctx.message.text.trim();
+
+      // Разделяем текст после "!буква"
+      const parts = messageText.split(" ");
+      const possibleLetter = parts[1]?.trim();
+
+      // Проверяем, есть ли буква и является ли она одиночной
+      if (
+        possibleLetter &&
+        possibleLetter.length === 1 &&
+        /^[а-яА-ЯёЁa-zA-Z]$/.test(possibleLetter)
+      ) {
+        // Обрабатываем угаданную букву
+        ctx.reply(`Вы выбрали букву: ${possibleLetter.toLowerCase()}`);
+      } else {
+        ctx.reply(
+          'Пожалуйста, укажите только одну букву после команды "!буква".',
+        );
+      }
+    });
+
+    // Обработка случаев, когда после "!буква" ничего нет
+    this.bot.hears(/^!буква\s*$/, (ctx) => {
+      ctx.reply('Пожалуйста, укажите одну букву после команды "!буква".');
+    });
+
     this.bot.launch().then(() => {});
 
     process.once("SIGINT", () => this.bot.stop("SIGINT"));
