@@ -1,7 +1,7 @@
 import { Context } from "telegraf";
 import db from "../db.js";
 import { players } from "../models.js";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 const GREETINGS: string[] = [
   "здарова, заебал! Зарегался, значит, ну всё, не расслабляйся!",
@@ -95,7 +95,12 @@ class RegistrationService {
       const user = await db
         .select()
         .from(players)
-        .where(eq(players.user_id, ctx.from.id));
+        .where(
+          and(
+            eq(players.user_id, ctx.from.id),
+            eq(players.chat_id, ctx.chat.id),
+          ),
+        );
 
       if (user.length) {
         const message = await this.getNextMessage(REGISTERED);
