@@ -29,10 +29,13 @@ class Bot {
   }
 
   public run() {
-    this.bot.hears("да", (ctx: Context) => this.yesService.execute(ctx));
-    this.bot.hears("ДА", (ctx: Context) => this.yesService.execute(ctx));
-    this.bot.hears("Да", (ctx: Context) => this.yesService.execute(ctx));
-    this.bot.hears("дА", (ctx: Context) => this.yesService.execute(ctx));
+    this.bot.hears(/^(да|ДА|Да|дА)$/i, (ctx: Context) =>
+      this.yesService.execute(ctx, "пизда! "),
+    );
+
+    this.bot.hears(/^(нет|НЕТ|Нет|нЕт|НЕт|нЕТ|НеТ|неТ)$/i, (ctx: Context) =>
+      this.yesService.execute(ctx, "пидора ответ! "),
+    );
 
     this.bot.launch().then(() => {});
 

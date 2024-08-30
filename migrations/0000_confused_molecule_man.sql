@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS "players" (
 CREATE TABLE IF NOT EXISTS "yes" (
 	"id" bigserial PRIMARY KEY NOT NULL,
 	"count" bigint NOT NULL,
+	"message" text NOT NULL,
 	"user_id" bigint NOT NULL,
 	"username" text NOT NULL,
 	"chat_id" bigint NOT NULL

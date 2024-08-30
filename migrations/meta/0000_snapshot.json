@@ -1,5 +1,5 @@
 {
-  "id": "81abc812-fd53-4f9b-ac37-6454fa2e00af",
+  "id": "08f0fca5-a5dc-4ed1-9682-4a1f8f259ba8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -51,6 +51,12 @@
         "count": {
           "name": "count",
           "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "message": {
+          "name": "message",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
