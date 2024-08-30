@@ -21,8 +21,7 @@ class Bot {
     ]);
 
     this.bot.command("register", async (ctx) => {
-      let message = await this.registrationService.execute();
-      ctx.reply("@" + ctx.from.username + " " + message);
+      await this.registrationService.execute(ctx);
     });
   }
 
