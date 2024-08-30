@@ -30,6 +30,9 @@ class Bot {
 
   public run() {
     this.bot.hears("да", (ctx: Context) => this.yesService.execute(ctx));
+    this.bot.hears("ДА", (ctx: Context) => this.yesService.execute(ctx));
+    this.bot.hears("Да", (ctx: Context) => this.yesService.execute(ctx));
+    this.bot.hears("дА", (ctx: Context) => this.yesService.execute(ctx));
 
     this.bot.launch().then(() => {});
 
