@@ -106,10 +106,7 @@ class RegistrationService {
       if (user.length) {
         const message = await this.getNextMessage(REGISTERED);
 
-        await ctx.reply(message, {
-          // @ts-ignore
-          reply_to_message_id: ctx.message.message_id,
-        });
+        await ctx.reply("@" + ctx.from.username + " " + message);
       } else {
         await db.insert(players).values({
           user_id: ctx.from.id,
@@ -118,10 +115,7 @@ class RegistrationService {
         });
 
         const message = await this.getNextMessage(GREETINGS);
-        await ctx.reply(message, {
-          // @ts-ignore
-          reply_to_message_id: ctx.message.message_id,
-        });
+        await ctx.reply("@" + ctx.from.username + " " + message);
       }
     }
   }
