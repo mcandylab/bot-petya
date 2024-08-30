@@ -6,6 +6,12 @@ import axios from "axios";
 import md5 from "md5";
 import { Context } from "telegraf";
 
+interface AnecdoticaResponse {
+  item: {
+    text: string;
+  };
+}
+
 class AnecdoticaService {
   private url: string;
 
@@ -20,7 +26,8 @@ class AnecdoticaService {
   }
 
   public async execute(ctx: Context) {
-    axios.get(this.url).then(async ({ data }) => {
+    axios.get<AnecdoticaResponse>(this.url).then(async (response) => {
+      const data = response.data;
       await ctx.reply(data.item.text, { parse_mode: "HTML" });
     });
   }
