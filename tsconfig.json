@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES6",
     "module": "commonjs",
-    "strict": true,
     "esModuleInterop": true,
+    "target": "es2021",
+    "moduleResolution": "node",
+    "strict": true,
+    "sourceMap": true,
+    "lib": [
+      "es2021"
+    ],
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist"
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+    "rootDir": "src",
+    "outDir": "dist"
+  }
 }
