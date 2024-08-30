@@ -9,7 +9,7 @@ class Bot {
 
   public init() {
     this.bot.start((ctx) => {
-      ctx.reply("Hello " + ctx.from.first_name + "!");
+      ctx.reply("Привет " + ctx.from.first_name + "!");
     });
   }
 
