@@ -33,7 +33,7 @@ class Bot {
       { command: "joke", description: "Случайный анекдот" },
       {
         command: "guessword",
-        description: 'Запустить игру: "Поле чудес". /guessword слово',
+        description: 'Запустить игру: "Поле чудес"',
       },
     ]);
 
@@ -65,11 +65,11 @@ class Bot {
       this.yesService.execute(ctx, "пидора ответ! "),
     );
 
-    // Прослушка сообщений, начинающихся с "!буква"
-    this.bot.hears(/^!буква\s*(.*)/, (ctx) => {
+    // Прослушка сообщений, начинающихся с "буква"
+    this.bot.hears(/^буква\s*(.*)/, async (ctx) => {
       const messageText = ctx.message.text.trim();
 
-      // Разделяем текст после "!буква"
+      // Разделяем текст после "буква"
       const parts = messageText.split(" ");
       const possibleLetter = parts[1]?.trim();
 
@@ -79,18 +79,50 @@ class Bot {
         possibleLetter.length === 1 &&
         /^[а-яА-ЯёЁa-zA-Z]$/.test(possibleLetter)
       ) {
-        // Обрабатываем угаданную букву
-        ctx.reply(`Вы выбрали букву: ${possibleLetter.toLowerCase()}`);
+        await this.gameGuessTheWord.guessWord(
+          ctx,
+          possibleLetter.toLowerCase(),
+        );
       } else {
-        ctx.reply(
-          'Пожалуйста, укажите только одну букву после команды "!буква".',
+        await ctx.reply(
+          'Пожалуйста, укажите только одну букву после команды "буква".',
         );
       }
     });
 
-    // Обработка случаев, когда после "!буква" ничего нет
-    this.bot.hears(/^!буква\s*$/, (ctx) => {
-      ctx.reply('Пожалуйста, укажите одну букву после команды "!буква".');
+    // Обработка случаев, когда после "буква" ничего нет
+    this.bot.hears(/^буква\s*$/, (ctx) => {
+      ctx.reply('Пожалуйста, укажите одну букву после команды "буква".');
+    });
+
+    // Прослушка сообщений, начинающихся с "слово"
+    this.bot.hears(/^слово\s*(.*)/, async (ctx) => {
+      const messageText = ctx.message.text.trim();
+
+      // Разделяем текст после "слово"
+      const parts = messageText.split(" ");
+      const possibleWord = parts[1]?.trim();
+
+      // Проверяем, есть ли слово и оно состоит только из букв
+      if (
+        possibleWord &&
+        /^[а-яА-ЯёЁa-zA-Z]+$/.test(possibleWord) &&
+        parts.length === 2
+      ) {
+        await this.gameGuessTheWord.guessWholeWord(
+          ctx,
+          possibleWord.toLowerCase(),
+        );
+      } else {
+        await ctx.reply(
+          'Пожалуйста, укажите одно слово после команды "слово".',
+        );
+      }
+    });
+
+    // Обработка случаев, когда после "слово" ничего нет
+    this.bot.hears(/^слово\s*$/, (ctx) => {
+      ctx.reply('Пожалуйста, укажите одно слово после команды "слово".');
     });
 
     this.bot.launch().then(() => {});
