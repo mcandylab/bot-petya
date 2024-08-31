@@ -3,7 +3,7 @@ import RegistrationService from "./services/registration.js";
 import YesService from "./services/yes.js";
 import AnecdoticaService from "./services/anecdotica.js";
 import GameGuessTheWord from "./services/gameGuessTheWord.js";
-import YandexCloud from "./services/yandexCloud.js";
+import GetRandomWord from "./lib/getRandomWord.js";
 
 class Bot {
   private bot: Telegraf;
@@ -11,7 +11,6 @@ class Bot {
   private yesService: YesService;
   private anecdoticaService: AnecdoticaService;
   private gameGuessTheWord: GameGuessTheWord;
-  private yandexCloud: YandexCloud;
 
   constructor() {
     this.bot = new Telegraf(process.env.BOT_TOKEN as string);
@@ -19,7 +18,6 @@ class Bot {
     this.yesService = new YesService();
     this.anecdoticaService = new AnecdoticaService();
     this.gameGuessTheWord = new GameGuessTheWord();
-    this.yandexCloud = new YandexCloud();
   }
 
   public async init() {
@@ -46,11 +44,7 @@ class Bot {
     });
 
     this.bot.command("guessword", async (ctx: Context) => {
-      await this.yandexCloud.getIAMtoken();
-      const word = await this.yandexCloud.sendMessageToGPT(
-        "ты генератор слов для игры 'поле чудес'. Отвечай только сгенерированное слово. Слово должно быть уникальным каждый раз",
-        "Сгенерируй случайное слово - существительное в диапазоне от 6 до 24 символов",
-      );
+      const word = GetRandomWord.execute();
 
       await this.gameGuessTheWord.start(ctx, word.toLowerCase());
     });
